@@ -8380,3 +8380,9 @@ dialog :link{
 }
 
 img, a { -webkit-user-drag: none; }
+
+/* Editable actual zoom stays separate from the four fitting presets. */
+#siteScalePercentContainer { display: inline-flex; align-items: center; gap: 2px; height: 28px; margin-inline: 3px; color: var(--main-color); }
+#siteScalePercent { box-sizing: border-box; width: 48px; height: 24px; padding: 2px 4px; border: 1px solid var(--toolbar-border-color, #888); border-radius: 4px; background: var(--field-bg-color, Field); color: var(--main-color, FieldText); font: inherit; text-align: right; appearance: textfield; }
+#siteScalePercent::-webkit-inner-spin-button, #siteScalePercent::-webkit-outer-spin-button { appearance: none; margin: 0; }
+#siteScalePercent:focus-visible { outline: 2px solid Highlight; outline-offset: 1px; }

@@ -36,8 +36,8 @@ See https://github.com/adobe-type-tools/cmap-resources
 <link rel="resource" type="application/l10n" href="locale/locale.json" />
 <script src="../build/pdf.mjs" type="module"></script>
 
-    <link rel="stylesheet" href="viewer.css?site-toolbar=26" />
-  <script src="viewer.mjs?type3-fix=3" type="module"></script>
+    <link rel="stylesheet" href="viewer.css?site-toolbar=29" />
+  <script src="viewer.mjs?site-zoom=29" type="module"></script>
   </head>
 
   <body tabindex="0">
@@ -93,33 +93,18 @@ See https://github.com/adobe-type-tools/cmap-resources
                   <button id="zoomOutButton" class="toolbarButton" type="button" tabindex="0" data-l10n-id="pdfjs-zoom-out-button">
                     <span data-l10n-id="pdfjs-zoom-out-button-label"></span>
                   </button>
-                  <div class="splitToolbarButtonSeparator"></div>
+                  <label id="siteScalePercentContainer"><input id="siteScalePercent" type="number" min="20" max="300" step="any" value="100" aria-label="缩放百分比" title="输入缩放百分比（20–300），按回车或移开焦点应用" /><span aria-hidden="true">%</span></label>
                   <button id="zoomInButton" class="toolbarButton" type="button" tabindex="0" data-l10n-id="pdfjs-zoom-in-button">
                     <span data-l10n-id="pdfjs-zoom-in-button-label"></span>
                   </button>
                 </div>
                 <span id="scaleSelectContainer" class="dropdownToolbarButton">
                   <select id="scaleSelect" tabindex="0" data-l10n-id="pdfjs-zoom-select">
+                    <option value="custom" hidden disabled>自定义</option>
                     <option id="pageAutoOption" value="auto" selected="selected" data-l10n-id="pdfjs-page-scale-auto"></option>
                     <option id="pageActualOption" value="page-actual" data-l10n-id="pdfjs-page-scale-actual"></option>
                     <option id="pageFitOption" value="page-fit" data-l10n-id="pdfjs-page-scale-fit"></option>
                     <option id="pageWidthOption" value="page-width" data-l10n-id="pdfjs-page-scale-width"></option>
-                    <option
-                      id="customScaleOption"
-                      value="custom"
-                      disabled="disabled"
-                      hidden="true"
-                      data-l10n-id="pdfjs-page-scale-percent"
-                      data-l10n-args='{ "scale": 0 }'
-                    ></option>
-                    <option value="0.5" data-l10n-id="pdfjs-page-scale-percent" data-l10n-args='{ "scale": 50 }'></option>
-                    <option value="0.75" data-l10n-id="pdfjs-page-scale-percent" data-l10n-args='{ "scale": 75 }'></option>
-                    <option value="1" data-l10n-id="pdfjs-page-scale-percent" data-l10n-args='{ "scale": 100 }'></option>
-                    <option value="1.25" data-l10n-id="pdfjs-page-scale-percent" data-l10n-args='{ "scale": 125 }'></option>
-                    <option value="1.5" data-l10n-id="pdfjs-page-scale-percent" data-l10n-args='{ "scale": 150 }'></option>
-                    <option value="2" data-l10n-id="pdfjs-page-scale-percent" data-l10n-args='{ "scale": 200 }'></option>
-                    <option value="3" data-l10n-id="pdfjs-page-scale-percent" data-l10n-args='{ "scale": 300 }'></option>
-                    <option value="4" data-l10n-id="pdfjs-page-scale-percent" data-l10n-args='{ "scale": 400 }'></option>
                   </select>
                 </span>
               <div id="siteViewControls" class="toolbarHorizontalGroup"><span class="dropdownToolbarButton"><select id="siteSpreadSelect" aria-label="页面布局"><option value="spreadNone">单页视图</option><option value="spreadOdd">双页（奇数页起始）</option><option value="spreadEven">双页（偶数页起始）</option></select></span><span class="dropdownToolbarButton"><select id="siteScrollSelect" aria-label="滚动模式"><option value="scrollPage">页面滚动</option><option value="scrollVertical" selected>垂直滚动</option><option value="scrollHorizontal">水平滚动</option><option value="scrollWrapped">平铺滚动</option></select></span></div></div>
