@@ -1,5 +1,5 @@
 {
-  "mode": "github",
-  "base": "/DraXon_Space_Public/",
-  "domain": null
+  "mode": "custom",
+  "base": "/",
+  "domain": "draxon.space"
 }
