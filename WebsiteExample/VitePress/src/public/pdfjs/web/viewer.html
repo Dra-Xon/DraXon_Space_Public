@@ -1,0 +1,160 @@
+<!doctype html>
+<!--
+Copyright 2012 Mozilla Foundation
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+Adobe CMap resources are covered by their own copyright but the same license:
+
+    Copyright 1990-2015 Adobe Systems Incorporated.
+
+See https://github.com/adobe-type-tools/cmap-resources
+-->
+<html dir="ltr" mozdisallowselectionprint>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="google" content="notranslate" />
+    <title>PDF.js viewer</title>
+
+  <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'none'; script-src 'self' 'wasm-unsafe-eval'; worker-src 'self' blob:; style-src 'self'; img-src 'self' blob: data:; media-src blob:; font-src 'self' data:; connect-src * blob: data:; base-uri 'none'; form-action 'none';"
+    />
+
+<!-- This snippet is used in production (included from viewer.html) -->
+<link rel="resource" type="application/l10n" href="locale/locale.json" />
+<script src="../build/pdf.mjs" type="module"></script>
+
+    <link rel="stylesheet" href="viewer.css?site-toolbar=29" />
+  <script src="viewer.mjs?site-zoom=29" type="module"></script>
+  </head>
+
+  <body tabindex="0">
+    <div id="outerContainer">
+      <span id="viewer-alert" class="visuallyHidden" role="alert"></span>
+
+      <div id="mainContainer">
+        <div class="toolbar">
+          <div id="toolbarContainer">
+            <div id="toolbarViewer" class="toolbarHorizontalGroup">
+              <div id="toolbarViewerLeft" class="toolbarHorizontalGroup">
+                
+                
+                <!-- sidebarContainer -->
+
+                <div class="toolbarButtonSpacer"></div>
+                
+                <div class="toolbarHorizontalGroup">
+                  <span class="loadingInput start toolbarHorizontalGroup">
+                    <input
+                      type="number"
+                      id="pageNumber"
+                      class="toolbarField"
+                      value="1"
+                      min="1"
+                      tabindex="0"
+                      data-l10n-id="pdfjs-page-input"
+                      autocomplete="off"
+                    />
+                  </span>
+                  <span id="numPages" class="toolbarLabel"></span>
+                </div>
+                <div class="splitToolbarButtonSeparator hiddenSmallView"></div>
+                <div class="toolbarHorizontalGroup hiddenSmallView">
+                  <button id="firstPage" class="toolbarButton" type="button" tabindex="0" data-l10n-id="pdfjs-first-page-button">
+                        <span data-l10n-id="pdfjs-first-page-button-label"></span>
+                      </button>
+                  <button class="toolbarButton" type="button" id="previous" tabindex="0" data-l10n-id="pdfjs-previous-button">
+                    <span data-l10n-id="pdfjs-previous-button-label"></span>
+                  </button>
+                  <div class="splitToolbarButtonSeparator"></div>
+                  <button class="toolbarButton" type="button" id="next" tabindex="0" data-l10n-id="pdfjs-next-button">
+                    <span data-l10n-id="pdfjs-next-button-label"></span>
+                  </button>
+                  <button id="lastPage" class="toolbarButton" type="button" tabindex="0" data-l10n-id="pdfjs-last-page-button">
+                        <span data-l10n-id="pdfjs-last-page-button-label"></span>
+                      </button>
+                </div>
+                
+              </div>
+              <div id="toolbarViewerMiddle" class="toolbarHorizontalGroup">
+                <div class="toolbarHorizontalGroup">
+                  <button id="zoomOutButton" class="toolbarButton" type="button" tabindex="0" data-l10n-id="pdfjs-zoom-out-button">
+                    <span data-l10n-id="pdfjs-zoom-out-button-label"></span>
+                  </button>
+                  <label id="siteScalePercentContainer"><input id="siteScalePercent" type="number" min="20" max="300" step="any" value="100" aria-label="缩放百分比" title="输入缩放百分比（20–300），按回车或移开焦点应用" /><span aria-hidden="true">%</span></label>
+                  <button id="zoomInButton" class="toolbarButton" type="button" tabindex="0" data-l10n-id="pdfjs-zoom-in-button">
+                    <span data-l10n-id="pdfjs-zoom-in-button-label"></span>
+                  </button>
+                </div>
+                <span id="scaleSelectContainer" class="dropdownToolbarButton">
+                  <select id="scaleSelect" tabindex="0" data-l10n-id="pdfjs-zoom-select">
+                    <option value="custom" hidden disabled>自定义</option>
+                    <option id="pageAutoOption" value="auto" selected="selected" data-l10n-id="pdfjs-page-scale-auto"></option>
+                    <option id="pageActualOption" value="page-actual" data-l10n-id="pdfjs-page-scale-actual"></option>
+                    <option id="pageFitOption" value="page-fit" data-l10n-id="pdfjs-page-scale-fit"></option>
+                    <option id="pageWidthOption" value="page-width" data-l10n-id="pdfjs-page-scale-width"></option>
+                  </select>
+                </span>
+              <div id="siteViewControls" class="toolbarHorizontalGroup"><span class="dropdownToolbarButton"><select id="siteSpreadSelect" aria-label="页面布局"><option value="spreadNone">单页视图</option><option value="spreadOdd">双页（奇数页起始）</option><option value="spreadEven">双页（偶数页起始）</option></select></span><span class="dropdownToolbarButton"><select id="siteScrollSelect" aria-label="滚动模式"><option value="scrollPage">页面滚动</option><option value="scrollVertical" selected>垂直滚动</option><option value="scrollHorizontal">水平滚动</option><option value="scrollWrapped">平铺滚动</option></select></span></div></div>
+              <div id="toolbarViewerRight" class="toolbarHorizontalGroup">
+
+                
+
+                <div class="toolbarHorizontalGroup hiddenMediumView">
+                  
+
+                  
+                  <button id="siteAutoInvert" class="toolbarButton toggled" type="button"
+                    title="自动启用颜色反转" aria-label="自动启用颜色反转" aria-pressed="true" tabindex="0">
+                    <span>自动启用颜色反转</span>
+                  </button>
+                  <button id="presentationMode" class="toolbarButton" type="button" tabindex="0" data-l10n-id="pdfjs-presentation-mode-button">
+                        <span data-l10n-id="pdfjs-presentation-mode-button-label"></span>
+                      </button>
+                  <button id="siteToolbarPin" class="toolbarButton" type="button"
+                    title="固定工具栏" aria-label="固定工具栏" aria-pressed="false"></button>
+                </div>
+
+                
+
+                
+                
+              </div>
+            </div>
+            <div id="loadingBar">
+              <div class="progress">
+                <div class="glimmer"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="viewerContainer" tabindex="0">
+          <div id="viewer" class="pdfViewer"></div>
+        </div>
+      </div>
+      <!-- mainContainer -->
+
+      
+      <!-- dialogContainer -->
+
+      
+      <!-- editorUndoBar -->
+    </div>
+    <!-- outerContainer -->
+    
+  <script type="module" src="site-toolbar.mjs?version=26"></script></body>
+</html>
+

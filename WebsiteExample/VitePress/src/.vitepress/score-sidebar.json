@@ -1,0 +1,67 @@
+[
+  {
+    "visible": true,
+    "category": "acg",
+    "title": "项3",
+    "subtitle": "说明文字",
+    "difficulty": "Diff 2",
+    "level": "Lv.10",
+    "constant": 10,
+    "constantText": "10.0",
+    "totalNotes": 100,
+    "bpm": 120,
+    "link": "/Scores/ACG/Example%20Anime"
+  },
+  {
+    "visible": true,
+    "category": "pop",
+    "title": "项4",
+    "subtitle": "说明文字",
+    "difficulty": "Diff 2",
+    "level": "Lv.10",
+    "constant": 10,
+    "constantText": "10.0",
+    "totalNotes": 100,
+    "bpm": 120,
+    "link": "/Scores/POP/Example%20Lost"
+  },
+  {
+    "visible": false,
+    "category": "game",
+    "title": "项2",
+    "subtitle": "说明文字",
+    "difficulty": "Diff 2",
+    "level": "Lv.10",
+    "constant": 10,
+    "constantText": "10.0",
+    "totalNotes": 100,
+    "bpm": 120,
+    "link": "/Scores/YY/Example%20Hidden"
+  },
+  {
+    "visible": true,
+    "category": "game",
+    "title": "项1",
+    "subtitle": "说明文字",
+    "difficulty": "Diff 1",
+    "level": "Lv.9",
+    "constant": 9,
+    "constantText": "9.0",
+    "totalNotes": 100,
+    "bpm": 120,
+    "link": "/Scores/YY/Example_Hard"
+  },
+  {
+    "visible": true,
+    "category": "game",
+    "title": "项1",
+    "subtitle": "说明文字",
+    "difficulty": "Diff 2",
+    "level": "Lv.10",
+    "constant": 10,
+    "constantText": "10.0",
+    "totalNotes": 100,
+    "bpm": 120,
+    "link": "/Scores/YY/Example_Master"
+  }
+]

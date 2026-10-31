@@ -1,0 +1,7 @@
+{
+  "sourceCommit": "1e194851583198cf967b22d45bd097055f3541e2",
+  "includesUncommittedWorkspaceChanges": true,
+  "assembledOn": "2026-10-31",
+  "kind": "standalone-example",
+  "note": "Sanitized example; not the exact corresponding source of a deployed release."
+}

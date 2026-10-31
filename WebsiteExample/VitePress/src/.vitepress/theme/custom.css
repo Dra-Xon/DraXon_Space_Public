@@ -1,0 +1,2563 @@
+
+
+html,
+body,
+body * {
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif !important;
+}
+
+html { scrollbar-gutter: stable; }
+
+/* Use the same right viewport inset with and without a sidebar. */
+@media (min-width: 960px) {
+  .VPNavBar .wrapper { padding: 0 !important; }
+  .VPNavBar .container { width: 100%; max-width: none !important; }
+  .VPNavBar .container > .content { padding-right: 32px !important; }
+  .VPNavBar:not(.has-sidebar) .container > .title { padding-left: 32px; }
+}
+
+/* =========================================================
+   1. 桌面端侧边栏折叠
+   ========================================================= */
+
+@media (min-width: 960px) {
+
+  /* -------------------------------------------------------
+     1.1 侧边栏折叠按钮
+     ------------------------------------------------------- */
+
+  .fixed-toggle-btn.desktop-only {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    position: fixed;
+    top: var(--vp-layout-top-height, 0px);
+    left: 16px;
+
+    z-index: 999 !important;
+
+    width: 36px;
+    height: var(--vp-nav-height);
+
+    border: none;
+    border-radius: 0;
+
+    background: transparent !important;
+    color: var(--vp-c-text-2);
+    transition: color 0.25s;
+
+    cursor: pointer;
+
+    box-shadow: none;
+  }
+
+  /* 首页不显示侧边栏折叠按钮 */
+  .fixed-toggle-btn.home-page {
+    display: none !important;
+  }
+
+
+  /* -------------------------------------------------------
+     1.2 导航栏标题位置
+     ------------------------------------------------------- */
+
+  .VPNavBarTitle {
+    padding-left: 48px !important;
+  }
+
+  /* The home page has no sidebar toggle, so both ends use the nav inset. */
+  .VPNavBar:not(.has-sidebar) .VPNavBarTitle {
+    padding-left: 0 !important;
+  }
+
+
+  /* -------------------------------------------------------
+     1.3 侧边栏折叠动画
+     ------------------------------------------------------- */
+
+  .VPSidebar {
+    transition:
+      transform 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+
+    /* Keep the sidebar's opaque surface below the shared glass nav strip. */
+    background: linear-gradient(
+      to bottom,
+      transparent 0,
+      transparent 64px,
+      var(--vp-sidebar-bg-color) 64px,
+      var(--vp-sidebar-bg-color) 100%
+    ) !important;
+  }
+
+  body.sidebar-collapsed .VPSidebar {
+    transform: translateX(-100%) !important;
+  }
+
+  body.sidebar-collapsed .VPContent.has-sidebar {
+    padding-left: 0 !important;
+  }
+
+  /* Give collapsed-sidebar document content a fixed, symmetric viewport inset. */
+  body.sidebar-collapsed .VPDoc .container {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+    box-sizing: border-box !important;
+  }
+
+
+  /* -------------------------------------------------------
+     1.4 桌面端内容区域占满宽度
+     ------------------------------------------------------- */
+
+  .VPDoc .container,
+  .VPContent .container {
+    max-width: 100% !important;
+    width: 100% !important;
+    padding-right: 24px !important;
+  }
+
+  .VPDoc .aside {
+    display: none !important;
+  }
+}
+
+/* Keep the desktop sidebar aligned to the viewport on very wide screens.
+   VitePress otherwise expands it by the centered-content outer margin. */
+@media (min-width: 1440px) {
+  .VPSidebar {
+    width: var(--vp-sidebar-width) !important;
+    padding-left: 32px !important;
+  }
+
+  .VPNavBar.has-sidebar .container > .title {
+    width: var(--vp-sidebar-width) !important;
+    padding-left: 32px !important;
+  }
+
+  .VPNavBar.has-sidebar .container > .content {
+    padding-left: var(--vp-sidebar-width) !important;
+    padding-right: 32px !important;
+  }
+
+  .VPNavBar.has-sidebar .VPNavBarSearch .DocSearch-Button {
+    width: calc(320px + 100vw - 1440px) !important;
+  }
+}
+
+
+/* =========================================================
+   2. 移动端 / 平板适配（max-width: 959px）
+   ========================================================= */
+
+@media (max-width: 959px) {
+
+  /* -------------------------------------------------------
+     2.1 Header
+     ------------------------------------------------------- */
+
+  .VPNav {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+
+    width: 100% !important;
+
+    display: block !important;
+
+    z-index: 100 !important;
+
+    background-color: var(--vp-nav-bg-color) !important;
+  }
+
+  .VPNavBar {
+    display: flex !important;
+    justify-content: space-between !important;
+
+    padding: 0 16px !important;
+  }
+
+  .VPNavBarTitle {
+    padding-left: 0 !important;
+  }
+
+
+  /* -------------------------------------------------------
+     2.2 导航与 Hamburger 菜单
+     ------------------------------------------------------- */
+
+  .VPNavBarNav,
+  .VPNavBarHamburger {
+    display: flex !important;
+  }
+
+
+  /* -------------------------------------------------------
+     2.3 侧边栏
+     ------------------------------------------------------- */
+
+  .VPSidebar {
+    top: var(--vp-nav-height) !important;
+    z-index: 90 !important;
+  }
+
+  .VPContent.has-sidebar {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+}
+
+
+/* =========================================================
+   3. 暗黑模式 (Dark Mode) 细化与视觉增强
+   ========================================================= */
+html.dark {
+  --vp-c-bg: #1e1e20;
+  --vp-c-bg-alt: #161618;
+  --vp-c-bg-soft: #252529;
+  --vp-c-divider: rgba(84, 84, 84, 0.48);
+}
+
+/* 暗黑模式下 PDF iframe 边框与阴影微调 */
+html.dark .pdf-viewer-wrapper {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+/* =========================================================
+   视频容器：多端自适应 16:9 画幅（修复 iPad / 桌面端过小问题）
+   ========================================================= */
+
+/* 1. 禁用卡顿动画 */
+.vp-doc .bilibili-container,
+.vp-doc .bilibili-container iframe {
+  transition: none !important;
+}
+
+/* 2. 容器基础形态：强制 16:9 比例 */
+.vp-doc .bilibili-container {
+  display: block !important;
+  aspect-ratio: 16 / 9 !important; /* 物理锁定 16:9 比例 */
+  margin-top: 16px !important;
+  margin-bottom: 24px !important;
+  margin-left: 0 !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+  border-radius: 8px !important;
+  background-color: #000 !important;
+}
+
+/* 3. 桌面端 (>= 960px)：宽度设为 80% 或最高 880px，既不挤压也不会过小 */
+@media (min-width: 960px) {
+  .vp-doc .bilibili-container {
+    width: 80% !important;
+    max-width: 880px !important;
+    min-width: 500px !important;
+    height: auto !important;
+  }
+}
+
+/* 4. iPad 与平板 / 手机端 (< 959px)：强制吃满 100% 容器宽度 */
+@media (max-width: 959px) {
+  .vp-doc .bilibili-container {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+  }
+}
+
+/* 5. 内部 iframe / video 彻底撑满 16:9 空间 */
+.vp-doc .bilibili-container iframe,
+.vp-doc .bilibili-container video {
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  border: none !important;
+}
+
+/* =========================================================
+   视频容器强制提权修复（彻底解决 50vw 挤压变小问题）
+   ========================================================= */
+
+/* 1. 解除所有父级容器对 width 的隐性压缩 */
+.VPDoc .container .content,
+.VPDoc .content,
+.VPDoc .content-container,
+.vp-doc {
+  max-width: 100% !important;
+  width: 100% !important;
+}
+
+/* 2. 彻底重置视频容器宽度 */
+html body .vp-doc .bilibili-container,
+html body .vp-doc div.bilibili-container {
+  display: block !important;
+  aspect-ratio: 16 / 9 !important;
+  margin: 20px 0 !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+  border-radius: 8px !important;
+  background-color: #000 !important;
+}
+
+/* 桌面端：固定最大 900px，优先占据 100% 内容宽度，绝对不会再缩成小盒 */
+@media (min-width: 960px) {
+  html body .vp-doc .bilibili-container,
+  html body .vp-doc div.bilibili-container {
+    width: 100% !important;
+    max-width: 900px !important;
+    height: auto !important;
+  }
+}
+
+/* 移动端 / iPad：无条件 100% 吃满屏幕 */
+@media (max-width: 959px) {
+  html body .vp-doc .bilibili-container,
+  html body .vp-doc div.bilibili-container {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+  }
+}
+
+html body .vp-doc .bilibili-container iframe {
+  width: 100% !important;
+  height: 100% !important;
+  border: none !important;
+}
+
+/* Match the video row, information table, and PDF panel to the document dividers. */
+.VPDoc:has(.video-info-table) .pdf-viewer-wrapper,
+.video-info-table-wrapper {
+  width: 100% !important;
+  max-width: none !important;
+  box-sizing: border-box;
+}
+
+.VPDoc:has(.video-info-table) .video-layout-row {
+  width: 100% !important;
+  max-width: none !important;
+  box-sizing: border-box;
+}
+
+.video-layout-row {
+  display: grid;
+  grid-template-columns: minmax(0, 9fr) minmax(0, 16fr);
+  align-items: center;
+  gap: 32px;
+  margin: 20px 0 32px;
+}
+
+html body .vp-doc .video-layout-row .bilibili-container {
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: none !important;
+  aspect-ratio: 16 / 9 !important;
+  margin: 0 !important;
+}
+
+.video-square-slot {
+  width: 100%;
+  min-width: 0;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  border-radius: 8px;
+  background: var(--content-glass-surface);
+  backdrop-filter: blur(14px) saturate(1.15);
+  -webkit-backdrop-filter: blur(14px) saturate(1.15);
+}
+
+.video-square-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: inherit;
+}
+
+.video-info-tables {
+  display: block !important;
+  width: 100%;
+  max-width: none;
+  margin: 0 0 24px;
+}
+
+.video-info-table-group {
+  display: block;
+  width: 100%;
+}
+
+.video-info-table-group + .video-info-table-group {
+  margin-top: 32px;
+}
+
+.video-info-top-pair {
+  display: grid;
+  grid-template-columns: minmax(0, 45fr) minmax(0, 55fr);
+  align-items: stretch;
+  gap: 32px;
+}
+
+.video-info-table-wrapper--left .video-info-table td:first-child {
+  width: 55%;
+}
+
+.video-info-table-wrapper--left .video-info-table td:nth-child(2) {
+  width: 45%;
+}
+
+.video-info-table-wrapper--right .video-info-table td:first-child {
+  width: 40%;
+}
+
+.video-info-table-wrapper--right .video-info-table td:nth-child(2) {
+  width: 60%;
+}
+
+.video-info-table-wrapper {
+  --video-table-background: var(--content-glass-surface);
+  --video-table-cell-background: rgba(255, 255, 255, 0.08);
+  --video-table-foreground: #111;
+  --video-table-border: rgba(0, 0, 0, 0.22);
+  --video-table-hover: rgba(255, 255, 255, 0.68);
+
+  overflow: hidden;
+  border: 1px solid var(--video-table-border);
+  border-radius: 8px;
+  isolation: isolate;
+  margin: 0;
+  background: var(--video-table-background);
+  backdrop-filter: blur(14px) saturate(1.15);
+  -webkit-backdrop-filter: blur(14px) saturate(1.15);
+}
+
+.video-info-table,
+.video-square-table {
+  display: table !important;
+  width: 100%;
+  height: 100%;
+  margin: 0 !important;
+  table-layout: fixed;
+  border: 0;
+  border-spacing: 0;
+  border-radius: 8px;
+  background: var(--video-table-background);
+  background-clip: padding-box;
+  color: var(--video-table-foreground);
+  overflow: hidden;
+  text-align: center;
+  vertical-align: middle;
+}
+
+/* Avoid percentage-height tables collapsing in the auto-sized grid on the
+   initial page paint. Their row content should determine the wrapper height. */
+.video-info-table {
+  height: auto !important;
+}
+
+:root {
+  --content-glass-surface: rgba(255, 255, 255, 0.40);
+  --pdf-dialog-surface: rgba(255, 255, 255, 0.75);
+  --pdf-dialog-text: #222;
+  --pdf-dialog-text-shadow: none;
+}
+
+html.dark {
+  --content-glass-surface: rgba(25, 25, 28, 0.40);
+  --pdf-dialog-surface: rgba(25, 25, 28, 0.75);
+  --pdf-dialog-text: #ccc;
+  --pdf-dialog-text-shadow: 0 2px 6px rgba(0, 0, 0, 0.45), 0 1px 2px rgba(0, 0, 0, 0.35);
+}
+
+html.dark .video-info-table-wrapper {
+  --video-table-background: var(--content-glass-surface);
+  --video-table-cell-background: rgba(0, 0, 0, 0.08);
+  --video-table-foreground: #ccc;
+  --video-table-border: rgba(255, 255, 255, 0.18);
+  --video-table-hover: rgba(5, 5, 7, 0.84);
+}
+
+.video-square-table {
+  --video-table-background: #fff;
+  --video-table-foreground: #111;
+  --video-table-border: rgba(0, 0, 0, 0.22);
+  --video-table-hover: #f0f0f0;
+
+  border: 1px solid var(--video-table-border);
+}
+
+html.dark .video-square-table {
+  --video-table-background: #000;
+  --video-table-foreground: #fff;
+  --video-table-border: rgba(255, 255, 255, 0.18);
+  --video-table-hover: #1b1b1b;
+}
+
+.video-info-table td,
+.video-square-table td {
+  height: 64px;
+  padding: 12px;
+  border: 1px solid var(--video-table-border);
+  background: var(--video-table-background);
+  color: var(--video-table-foreground);
+  text-align: center;
+  vertical-align: middle;
+}
+
+.video-info-table td {
+  background: var(--video-table-cell-background);
+  transition: background-color 0.2s ease;
+}
+
+.video-info-table tr,
+.video-square-table tr {
+  height: 100%;
+  background: var(--video-table-background) !important;
+}
+
+.video-info-table td:hover {
+  background: var(--video-table-hover);
+}
+
+.video-square-table td:hover {
+  background: var(--video-table-hover);
+}
+
+/* =========================================================
+   全屏背景轮播
+   ========================================================= */
+
+/* 背景层 */
+/* Keep the negative-z wallpaper above body's opaque light/dark base color. */
+body {
+  isolation: isolate;
+}
+
+.background-slideshow {
+  position: fixed !important;
+  inset: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+
+  z-index: -2 !important;
+  pointer-events: none !important;
+
+  overflow: hidden !important;
+}
+
+/* 让背景透过 VitePress 页面 */
+#app,
+.VPApp,
+.VPContent,
+.VPHome,
+.VPDoc,
+.VPPage {
+  background: transparent !important;
+}
+
+/* 导航栏位于背景上方 */
+.VPNav {
+  background: transparent !important;
+  z-index: 100 !important;
+}
+
+/* 侧边栏位于背景上方 */
+.VPSidebar {
+  z-index: 90 !important;
+  background: rgba(255, 255, 255, 0.94) !important;
+  backdrop-filter: blur(18px) saturate(1.2);
+  -webkit-backdrop-filter: blur(18px) saturate(1.2);
+}
+
+html.dark .VPSidebar {
+  background: rgba(8, 8, 10, 0.92) !important;
+}
+
+/* =========================================================
+   4. 全局视觉增强
+   ========================================================= */
+
+
+/* =========================================================
+   4.1 全局文字渲染
+   ========================================================= */
+
+body {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+
+/* =========================================================
+   4.2 顶部导航栏
+   ========================================================= */
+
+.VPNav {
+  background: rgba(255, 255, 255, 0.58) !important;
+
+  backdrop-filter: blur(14px) saturate(1.15);
+  -webkit-backdrop-filter: blur(14px) saturate(1.15);
+
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+.VPNavBar {
+  background: transparent !important;
+}
+
+/* 网站标题 */
+.VPNavBarTitle .title {
+  font-weight: 650;
+  letter-spacing: 0.02em;
+}
+
+/* 导航项目 */
+.VPNavBarMenuLink {
+  font-weight: 500;
+
+  color: var(--vp-c-text-1) !important;
+
+  transition:
+    color 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.VPNavBarMenuLink:hover {
+  color: var(--vp-c-text-1) !important;
+  opacity: 0.8;
+}
+
+/* A rounded tab with vertical sides and outward lower corners at the nav edge. */
+.VPNavBarMenu {
+  /* Keep the tab's side flares while clipping all motion at the nav bottom. */
+  overflow: clip;
+  padding-inline: 12px;
+  margin-inline: -12px;
+}
+
+.VPNavBarMenu .VPNavBarMenuLink {
+  --bookmark-fill: rgba(255, 255, 255, 0.68);
+  position: relative;
+  isolation: isolate;
+  padding-inline: 18px;
+}
+
+.VPNavBarMenu .VPNavBarMenuLink::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: 4px -12px 0;
+  pointer-events: none;
+  background: var(--bookmark-fill);
+  backdrop-filter: blur(5px) saturate(1.2);
+  -webkit-backdrop-filter: blur(5px) saturate(1.2);
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 54' preserveAspectRatio='none'%3E%3Cpath d='M0 54Q14 54 14 40V14Q14 2 28 2H92Q106 2 106 14V40Q106 54 120 54Z'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(0);
+  transition: none;
+}
+
+.VPNavBarMenu .VPNavBarMenuLink.active::before {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.2s ease;
+  transform: translateY(0);
+  animation: bookmark-enter 0.2s ease;
+}
+
+@keyframes bookmark-enter {
+  from { transform: translateY(5px); }
+  to { transform: translateY(0); }
+}
+
+.VPNavBarMenu .VPNavBarMenuLink.active {
+  font-weight: 650;
+}
+
+html:not(.dark) .VPNavBarMenu .VPNavBarMenuLink.active,
+html:not(.dark) .VPNavBarMenu .VPNavBarMenuLink.active:hover {
+  color: #fff !important;
+  opacity: 1;
+}
+
+html.dark .VPNavBarMenu .VPNavBarMenuLink {
+  --bookmark-fill: rgba(255, 255, 255, 0.10);
+}
+
+html.dark .VPNavBarMenu .VPNavBarMenuLink::before {
+  /* Open outline omits the bottom edge; a blurred second stroke adds soft light. */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 54' preserveAspectRatio='none'%3E%3Cdefs%3E%3Cfilter id='glow' x='-30%25' y='-30%25' width='160%25' height='160%25'%3E%3CfeGaussianBlur stdDeviation='2'/%3E%3C/filter%3E%3C/defs%3E%3Cg fill='none' stroke='white'%3E%3Cpath d='M0 54Q14 54 14 40V14Q14 2 28 2H92Q106 2 106 14V40Q106 54 120 54' stroke-opacity='.18' stroke-width='5' filter='url(%23glow)' vector-effect='non-scaling-stroke'/%3E%3Cpath d='M0 54Q14 54 14 40V14Q14 2 28 2H92Q106 2 106 14V40Q106 54 120 54' stroke-opacity='.28' stroke-width='1' vector-effect='non-scaling-stroke'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+
+/* Move the shared glass onto a separate layer with a real tab-shaped hole.
+   The tab can then sample the page backdrop instead of the opaque nav glass. */
+@media (min-width: 768px) {
+  html .VPNav[data-bookmark-ready]:has(.VPNavBarMenuLink.active) {
+    background: transparent !important;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  .VPNav[data-bookmark-ready]:has(.VPNavBarMenuLink.active)::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background: rgba(255, 255, 255, 0.58);
+    backdrop-filter: blur(14px) saturate(1.15);
+    -webkit-backdrop-filter: blur(14px) saturate(1.15);
+    mask-image: url('#site-nav-bookmark-mask');
+    mask-size: 100% 100%;
+    mask-position: 0 0;
+    mask-repeat: no-repeat;
+    mask-mode: luminance;
+  }
+
+  html.dark .VPNav[data-bookmark-ready]:has(.VPNavBarMenuLink.active)::before {
+    background: rgba(25, 25, 28, 0.62);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .VPNavBarMenu .VPNavBarMenuLink::before { transition: none; animation: none; }
+}
+
+/* Keep the appearance switch in the primary navigation throughout desktop
+   widths; VitePress normally moves it into the overflow menu below 1280px. */
+@media (min-width: 960px) {
+  .VPNavBarAppearance {
+    display: flex !important;
+    align-items: center;
+    flex: 0 0 auto;
+  }
+}
+
+/* This site has no other extra navigation items, so remove the now-empty
+   overflow trigger while keeping the switch in the primary navigation. */
+@media (min-width: 960px) and (max-width: 1279px) {
+  .VPNavBarExtra {
+    display: none !important;
+  }
+}
+
+html.dark .VPNavBarMenuLink,
+html.dark .VPNavBarMenuLink:hover {
+  color: var(--site-bright-text) !important;
+}
+
+/* 保持导航栏内部透明，让 .VPNav 自身连续绘制毛玻璃背景 */
+.VPNavBar,
+.VPNavBar .container,
+.VPNavBar .content,
+.VPNavBar .title {
+  background: transparent !important;
+}
+
+/* VitePress keeps this divider under the title even when the sidebar is hidden. */
+.VPNavBarTitle.has-sidebar .title {
+  border-bottom: 0 !important;
+}
+
+/* VitePress gives document-page content-body an opaque nav background. */
+.VPNavBar:not(.home) .content-body {
+  background-color: transparent !important;
+}
+
+.VPNavBar .divider-line {
+  background-color: transparent !important;
+}
+
+/* Keep the document footer close to the PDF viewer on score pages. */
+.vp-doc hr.pdf-bottom-divider {
+  margin: 48px 0 24px;
+  border-top: 1px solid var(--vp-c-divider);
+}
+
+.VPDoc:has(.pdf-viewer-wrapper) .VPDocFooter {
+  margin-top: 0 !important;
+}
+
+/* The pager divider sits directly against the PDF when the footer margin is 0. */
+.VPDoc:has(.pdf-viewer-wrapper) .VPDocFooter .prev-next {
+  border-top: 0 !important;
+}
+
+/* Match the document pager cards to the frosted-glass navigation bar. */
+.VPDocFooter .pager-link,
+.title-pager-link {
+  background: rgba(255, 255, 255, 0.58) !important;
+  border-color: rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(14px) saturate(1.15);
+  -webkit-backdrop-filter: blur(14px) saturate(1.15);
+  transition:
+    background-color 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.VPDocFooter .pager-link:hover,
+.title-pager-link:hover {
+  background: rgba(255, 255, 255, 0.72) !important;
+  border-color: var(--vp-c-brand-1);
+}
+
+html.dark .VPDocFooter .pager-link,
+html.dark .title-pager-link {
+  background: rgba(25, 25, 28, 0.62) !important;
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+html.dark .VPDocFooter .pager-link:hover,
+html.dark .title-pager-link:hover {
+  background: rgba(35, 35, 40, 0.72) !important;
+}
+
+/* VitePress reserves 128px below desktop document content. Score pages only
+   need a small breathing space after the embedded PDF viewer. */
+@media (min-width: 960px) {
+  .VPDoc:has(.pdf-viewer-wrapper) .content {
+    padding-bottom: 64px !important;
+  }
+}
+
+/* 清除 VitePress 导航栏内部可能产生的遮挡层 */
+.VPNavBar .divider {
+  background: transparent !important;
+  border: none !important;
+}
+
+.VPNavBar .divider::before,
+.VPNavBar .divider::after {
+  background: transparent !important;
+  border: none !important;
+}
+
+
+/* =========================================================
+   4.3 首页 Hero
+   ========================================================= */
+
+.VPHero {
+  position: relative;
+}
+
+/* Hero 主标题：固定使用暗黑模式下的淡紫蓝色 */
+.VPHero .name {
+  font-weight: 750;
+  letter-spacing: -0.02em;
+
+  color: var(--site-bright-text) !important;
+  -webkit-text-fill-color: #A8B1FF !important;
+}
+
+/* Hero 副标题 */
+.VPHero .text {
+  font-weight: 550;
+  color: var(--site-bright-text) !important;
+}
+
+/* Hero 描述 */
+.VPHero .tagline {
+  font-weight: 450;
+  opacity: 0.9;
+
+  color: var(--site-bright-text) !important;
+}
+
+/* Hero 文字阴影 */
+.VPHero .name,
+.VPHero .text,
+.VPHero .tagline {
+  text-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.35),
+    0 1px 2px rgba(0, 0, 0, 0.25);
+}
+
+
+/* =========================================================
+   4.4 Hero 按钮
+   ========================================================= */
+
+.VPHero .actions {
+  margin-top: 28px;
+}
+
+.VPHero .VPButton {
+  border-radius: 10px;
+
+  font-weight: 600;
+  letter-spacing: 0.01em;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.VPHero .VPButton:hover {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 6px 18px rgba(0, 0, 0, 0.16);
+}
+
+.VPHero .VPButton:active {
+  transform: translateY(0);
+}
+
+
+/* =========================================================
+   4.5 首页 Feature 卡片
+   ========================================================= */
+
+.VPHomeFeatures .VPFeature {
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.VPHomeFeatures .VPFeature .box {
+  background: rgba(255, 255, 255, 0.58);
+
+  border: 1px solid rgba(255, 255, 255, 0.42);
+  border-radius: 14px;
+
+  backdrop-filter: blur(12px) saturate(1.1);
+  -webkit-backdrop-filter: blur(12px) saturate(1.1);
+
+  box-shadow:
+    0 6px 24px rgba(0, 0, 0, 0.10);
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    background-color 0.25s ease;
+}
+
+/* Feature 悬停 */
+.VPHomeFeatures .VPFeature:hover .box {
+  transform: translateY(-3px);
+
+  background: rgba(255, 255, 255, 0.68);
+
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* Feature 标题 */
+.VPHomeFeatures .VPFeature .title,
+.VPHomeFeatures .VPFeature .details {
+  text-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.45),
+    0 2px 6px rgba(0, 0, 0, 0.25);
+}
+
+.VPHomeFeatures .VPFeature .title {
+  font-size: 20px;
+  font-weight: 650;
+  color: var(--site-bright-text) !important;
+}
+
+/* Feature 正文 */
+.VPHomeFeatures .VPFeature .details {
+  font-size: 16px;
+  font-weight: 450;
+  line-height: 1.7;
+
+  color: var(--site-bright-text) !important;
+  white-space: pre-line;
+}
+
+
+/* =========================================================
+   4.6 搜索框
+   ========================================================= */
+
+/* ---------------------------------------------------------
+   桌面端 / iPad 横屏
+   --------------------------------------------------------- */
+
+.VPNavBarSearch .DocSearch-Button {
+  width: 320px !important;
+  box-sizing: border-box;
+
+  background: rgba(255, 255, 255, 0.45);
+
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 9px;
+
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.VPNavBarSearch .DocSearch-Button:hover {
+  background: rgba(255, 255, 255, 0.65);
+}
+
+
+/* ---------------------------------------------------------
+   手机 / iPad 竖屏
+   --------------------------------------------------------- */
+
+@media (max-width: 959px) {
+  .VPNavBarSearch .DocSearch-Button {
+    width: 40px !important;
+    min-width: 40px !important;
+    padding: 0 !important;
+  }
+
+  /* 放大镜居中 */
+  .VPNavBarSearch .DocSearch-Button .DocSearch-Search-Icon {
+    margin: 0 auto !important;
+  }
+}
+
+
+/* =========================================================
+   4.7 暗色模式
+   ========================================================= */
+
+/* 顶部导航栏 */
+html.dark .VPNav {
+  background: rgba(25, 25, 28, 0.62) !important;
+
+  border-bottom-color: rgba(255, 255, 255, 0.08);
+}
+
+html.dark .fixed-toggle-btn.desktop-only {
+  background: transparent !important;
+}
+
+.fixed-toggle-btn.VPNavBarHamburger > .container {
+  transform: scale(1.5);
+}
+.fixed-toggle-btn.VPNavBarHamburger {
+  transform: scaleX(-1);
+}
+.fixed-toggle-btn:hover {
+  color: var(--vp-c-text-1);
+}
+@media (max-width: 959px) {
+  .fixed-toggle-btn.desktop-only { display: none; }
+}
+
+/* 暗色模式下 Hero 文字阴影 */
+html.dark .VPHero .name,
+html.dark .VPHero .text,
+html.dark .VPHero .tagline {
+  text-shadow:
+    0 2px 10px rgba(0, 0, 0, 0.65),
+    0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+/* Feature 卡片 */
+html.dark .VPHomeFeatures .VPFeature .box {
+  background: rgba(25, 25, 28, 0.62);
+
+  box-shadow:
+    0 8px 28px rgba(0, 0, 0, 0.30);
+}
+
+html.dark .VPHomeFeatures .VPFeature:hover .box {
+  background: rgba(35, 35, 40, 0.72);
+
+  box-shadow:
+    0 12px 34px rgba(0, 0, 0, 0.40);
+}
+
+/* 搜索框 */
+html.dark .VPNavBarSearch .DocSearch-Button {
+  background: rgba(35, 35, 40, 0.55);
+
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+html.dark .VPNavBarSearch .DocSearch-Button:hover {
+  background: rgba(45, 45, 50, 0.72);
+}
+
+
+/* =========================================================
+   4.8 减少动态效果
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .VPHero .VPButton,
+  .VPHomeFeatures .VPFeature,
+  .VPHomeFeatures .VPFeature .box,
+  .VPNavBarMenuLink,
+  .VPNavBarSearch .DocSearch-Button {
+    transition: none !important;
+  }
+}
+
+
+/* =========================================================
+   5. 页面主体文字改为白色
+   ========================================================= */
+
+/* ---------------------------------------------------------
+   5.1 首页
+   --------------------------------------------------------- */
+
+.VPHero .name,
+.VPHero .text,
+.VPHero .tagline {
+  color: var(--site-bright-text) !important;
+}
+
+/* Feature 卡片 */
+.VPHomeFeatures .VPFeature .title,
+.VPHomeFeatures .VPFeature .details {
+  color: var(--site-bright-text) !important;
+}
+
+
+/* ---------------------------------------------------------
+   5.2 版块正文
+   --------------------------------------------------------- */
+
+/* 正文基础文字 */
+.VPDoc .vp-doc {
+  color: var(--site-bright-text) !important;
+}
+
+/* 标题 */
+.VPDoc .vp-doc h1,
+.VPDoc .vp-doc h2,
+.VPDoc .vp-doc h3,
+.VPDoc .vp-doc h4,
+.VPDoc .vp-doc h5,
+.VPDoc .vp-doc h6 {
+  color: var(--site-bright-text) !important;
+}
+
+/* 段落、列表、引用等 */
+.VPDoc .vp-doc p,
+.VPDoc .vp-doc li,
+.VPDoc .vp-doc blockquote {
+  color: var(--site-bright-text) !important;
+}
+
+/* 表格文字 */
+.VPDoc .vp-doc th,
+.VPDoc .vp-doc td {
+  color: var(--site-bright-text) !important;
+}
+
+.VPDoc .vp-doc .video-info-table td,
+.VPDoc .vp-doc .video-square-table td {
+  color: var(--video-table-foreground) !important;
+}
+
+
+/* ---------------------------------------------------------
+   5.3 正文中的链接
+   --------------------------------------------------------- */
+
+.VPDoc .vp-doc a:not(.pdf-btn) {
+  color: var(--site-bright-text) !important;
+}
+
+
+/* ---------------------------------------------------------
+   5.4 正文代码块保持原有配色
+   --------------------------------------------------------- */
+
+/*
+ * 行内代码使用黑色文字和浅色背景；代码块保留默认高亮。
+ */
+
+.VPDoc .vp-doc :not(pre) > code {
+  color: #111 !important;
+  background-color: #eceef1 !important;
+}
+
+html.dark .VPDoc .vp-doc :not(pre) > code {
+  color: #e5e7eb !important;
+  background-color: rgba(10, 12, 16, 0.65) !important;
+}
+
+.VPDoc .vp-doc:has(.score-reference-table) h1 {
+  margin-bottom: 36px;
+}
+
+.VPDoc .vp-doc mjx-container[display="true"],
+.VPDoc .vp-doc .score-explanation {
+  box-sizing: border-box;
+  padding: 16px 20px;
+  border: none;
+  border-radius: 12px;
+  background: transparent;
+  backdrop-filter: blur(14px) saturate(1.15);
+  -webkit-backdrop-filter: blur(14px) saturate(1.15);
+  overflow-x: auto;
+}
+
+.VPDoc .vp-doc .score-explanation {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 12px 32px;
+  min-height: 64px;
+  margin: 1em 0;
+  text-align: center;
+  font-size: 18px;
+  line-height: 1.65;
+}
+
+/* Preserve Markdown structure; unformatted text keeps the centered layout. */
+.VPDoc .vp-doc .score-explanation:has(ul, ol, h1, h2, h3, h4, h5, h6, blockquote, pre, table, mjx-container[display="true"], strong, em, code, a, > p + p) {
+  display: block;
+  text-align: left;
+}
+
+.VPDoc .vp-doc .score-explanation > p:only-child:has(> span) {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 12px 32px;
+}
+
+.VPDoc .vp-doc .score-explanation > :first-child {
+  margin-top: 0;
+}
+
+.VPDoc .vp-doc .score-explanation > :last-child {
+  margin-bottom: 0;
+}
+
+/* Keep initial glass in CSS until the measured background layer is ready. */
+.VPDoc .vp-doc .score-section-glass-ready .score-section-content :is(mjx-container[display="true"], .score-explanation, table:not(.video-info-table):not(.video-square-table)) {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+/* Plain nested disclosure controls, without glass or backdrop filtering. */
+.VPDoc .vp-doc details.score-subsection {
+  margin: 8px 0;
+}
+
+.VPDoc .vp-doc details.score-subsection + details.score-subsection {
+  margin-top: 32px;
+}
+
+.VPDoc .vp-doc details.score-subsection + details.score-subsection > summary::before {
+  content: '';
+  position: absolute;
+  top: -18px;
+  left: 12px;
+  display: block;
+  width: min(240px, 42%);
+  height: 3px;
+  background: linear-gradient(90deg, transparent, currentColor 35%, currentColor 65%, transparent);
+  clip-path: polygon(0 50%, 25% 20%, 50% 0, 75% 20%, 100% 50%, 75% 80%, 50% 100%, 25% 80%);
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+.VPDoc .vp-doc #score-difficulty-guide > details.score-subsection:first-of-type {
+  margin-top: 24px;
+}
+
+.VPDoc .vp-doc details.score-subsection > summary {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 12px;
+  padding: 0 12px;
+  font-size: 18px;
+  line-height: 1.65;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: inherit;
+  list-style: none;
+  cursor: pointer;
+  transition: text-shadow 160ms ease;
+}
+
+.VPDoc .vp-doc details.score-subsection > summary::-webkit-details-marker {
+  display: none;
+}
+
+.VPDoc .vp-doc details.score-subsection > summary::after {
+  content: '';
+  width: 8px;
+  height: 8px;
+  flex-shrink: 0;
+  margin-right: 3px;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(-45deg);
+  transition: transform 160ms ease;
+}
+
+.VPDoc .vp-doc details.score-subsection[open] > summary::after {
+  transform: rotate(45deg);
+}
+
+.VPDoc .vp-doc details.score-subsection > summary:is(:hover, :focus-visible) {
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.55), 0 0 8px currentColor;
+}
+
+.VPDoc .vp-doc details.score-subsection > summary:focus-visible {
+  outline: 2px solid var(--vp-c-brand-1);
+  outline-offset: 3px;
+}
+
+.VPDoc .vp-doc .score-subsection-content {
+  padding: 8px 12px 0;
+}
+
+.VPDoc .vp-doc .score-subsection-content > :first-child {
+  margin-top: 0;
+}
+
+.VPDoc .vp-doc .score-subsection-content > :last-child {
+  margin-bottom: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .VPDoc .vp-doc details.score-subsection > summary,
+  .VPDoc .vp-doc details.score-subsection > summary::after {
+    transition: none;
+  }
+}
+
+.VPDoc .vp-doc .score-reference-table th:first-child {
+  width: 66.6667%;
+}
+
+.score-difficulty-table .difficulty-easy { color: #80ff40; }
+.score-difficulty-table .difficulty-normal { color: #70f8e4; }
+.score-difficulty-table .difficulty-hard { color: #ff2008; }
+.score-difficulty-table .difficulty-splendid { color: #ff80c4; }
+.score-difficulty-table .difficulty-legendary { color: #ff9000; }
+.score-difficulty-table .difficulty-abyssal { color: #00a0ff; }
+.score-difficulty-table .difficulty-void { color: #d4d4d4; }
+.score-difficulty-table .difficulty-ordinary { color: #ffd740; }
+.score-difficulty-table .difficulty-master { color: #b780ff; }
+
+.score-difficulty-table :is(.difficulty-easy, .difficulty-normal, .difficulty-hard, .difficulty-splendid, .difficulty-legendary, .difficulty-abyssal, .difficulty-void, .difficulty-ordinary, .difficulty-master) {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5), 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.VPDoc .vp-doc .score-reference-table th:nth-child(2),
+.VPDoc .vp-doc .score-reference-table th:nth-child(3) {
+  width: 16.6667%;
+}
+
+/* Markdown emphasis remains semantic <strong>, with a visible outline. */
+.VPDoc .vp-doc strong {
+  padding: 0.08em 0.3em;
+  border: 1px solid currentColor;
+  border-radius: 0.3em;
+  font-weight: inherit;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+/* Full-width article tables; score information tables have their own layout. */
+:root {
+  --article-table-surface: rgba(255, 255, 255, 0.42);
+  --article-table-header: rgba(255, 255, 255, 0.22);
+  --article-table-border: rgba(30, 45, 65, 0.25);
+  --article-table-text: #111;
+}
+
+html.dark {
+  --article-table-surface: rgba(25, 25, 28, 0.42);
+  --article-table-header: rgba(255, 255, 255, 0.06);
+  --article-table-border: rgba(220, 230, 245, 0.22);
+  --article-table-text: var(--vp-c-text-1);
+}
+
+.VPDoc .vp-doc table:not(.video-info-table):not(.video-square-table) {
+  display: table;
+  width: 100%;
+  margin: 20px 0;
+  table-layout: fixed;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 1px solid var(--article-table-border);
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--article-table-surface);
+  backdrop-filter: blur(14px) saturate(1.15);
+  -webkit-backdrop-filter: blur(14px) saturate(1.15);
+}
+
+.VPDoc .vp-doc table:not(.video-info-table):not(.video-square-table) tr {
+  border: 0;
+  background: transparent !important;
+}
+
+.VPDoc .vp-doc table:not(.video-info-table):not(.video-square-table) :is(th, td) {
+  padding: 12px 16px;
+  border: 0;
+  border-right: 1px solid var(--article-table-border);
+  border-bottom: 1px solid var(--article-table-border);
+  color: var(--article-table-text) !important;
+  background: transparent;
+  text-shadow: none;
+  text-align: center !important;
+  vertical-align: middle;
+  overflow-wrap: anywhere;
+}
+
+.VPDoc .vp-doc table:not(.video-info-table):not(.video-square-table) th {
+  background: var(--article-table-header);
+}
+
+.VPDoc .vp-doc table:not(.video-info-table):not(.video-square-table) :is(th, td):last-child {
+  border-right: 0;
+}
+
+.VPDoc .vp-doc table:not(.video-info-table):not(.video-square-table) tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+@media (max-width: 600px) {
+  .VPDoc .vp-doc table:not(.video-info-table):not(.video-square-table) :is(th, td) {
+    padding: 10px 8px;
+  }
+}
+
+
+/* ---------------------------------------------------------
+   5.5 提高白色正文在背景图上的可读性
+   --------------------------------------------------------- */
+
+.VPHero .name,
+.VPHero .text,
+.VPHero .tagline,
+.VPDoc .vp-doc h1,
+.VPDoc .vp-doc h2,
+.VPDoc .vp-doc h3,
+.VPDoc .vp-doc h4,
+.VPDoc .vp-doc h5,
+.VPDoc .vp-doc h6,
+.VPDoc .vp-doc p,
+.VPDoc .vp-doc li,
+.VPDoc .vp-doc blockquote {
+  text-shadow:
+    0 2px 6px rgba(0, 0, 0, 0.45),
+    0 1px 2px rgba(0, 0, 0, 0.35);
+}
+
+/* =========================================================
+   6. 全屏背景图片遮罩
+   ========================================================= */
+
+:root {
+  --background-overlay-opacity: 0.50;
+}
+
+html.dark {
+  --background-overlay-opacity: 0.75;
+}
+
+.background-slideshow::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+
+  background: rgba(0, 0, 0, var(--background-overlay-opacity));
+
+  pointer-events: none;
+}
+
+/* =========================================================
+   7. 首页项目入口卡片
+   ========================================================= */
+
+/* ---------------------------------------------------------
+   7.1 项目入口整体布局
+   --------------------------------------------------------- */
+
+/* 整个项目区域靠左 */
+.VPHome .VPHero,
+.VPHome .VPHomeFeatures {
+  padding-left: 96px !important;
+}
+
+.VPHomeFeatures .container {
+  max-width: none !important;
+  margin-left: 0 !important;
+  margin-right: auto !important;
+}
+
+/* 两个项目入口上下排列 */
+.VPHomeFeatures .items {
+  display: grid !important;
+  grid-template-columns: 264px !important;
+  gap: 12px !important;
+}
+
+/* 解除 VitePress 默认的项目宽度限制 */
+.VPHomeFeatures .items > .item {
+  width: auto !important;
+  max-width: none !important;
+  margin: 0 !important;
+}
+
+/* 卡片填满所在列 */
+.VPHomeFeatures .items > .item > .VPFeature {
+  width: 100% !important;
+}
+
+/* ---------------------------------------------------------
+   7.2 毛玻璃卡片
+   --------------------------------------------------------- */
+
+.VPHomeFeatures .VPFeature {
+  background: transparent !important;
+  border: none !important;
+}
+
+.VPHomeFeatures .VPFeature .box {
+  height: 100%;
+  box-sizing: border-box;
+
+  background: rgba(255, 255, 255, 0.20) !important;
+
+  /* 默认边框：完全透明 */
+  border: 2px solid transparent !important;
+
+  border-radius: 14px !important;
+
+  backdrop-filter: blur(20px) saturate(1.3) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(1.3) !important;
+
+  box-shadow: none;
+
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+
+/* ---------------------------------------------------------
+   7.3 鼠标悬停
+   --------------------------------------------------------- */
+
+.VPHomeFeatures .VPFeature:hover .box {
+  transform: translateY(-3px);
+
+  background: rgba(255, 255, 255, 0.68) !important;
+
+  /* 悬停时变成白色细边框 */
+  border-color: rgba(255, 255, 255, 0.75) !important;
+
+  box-shadow: none;
+}
+
+
+/* ---------------------------------------------------------
+   7.4 暗黑模式
+   --------------------------------------------------------- */
+
+html.dark .VPHomeFeatures .VPFeature .box {
+  background: rgba(25, 25, 28, 0.62) !important;
+
+  border: 2px solid transparent !important;
+
+  box-shadow:
+    0 8px 28px rgba(0, 0, 0, 0.30);
+}
+
+html.dark .VPHomeFeatures .VPFeature:hover .box {
+  background: rgba(35, 35, 40, 0.72) !important;
+
+  border-color: rgba(255, 255, 255, 0.95) !important;
+
+  box-shadow:
+    0 12px 34px rgba(0, 0, 0, 0.40);
+}
+
+
+/* ---------------------------------------------------------
+   7.5 手机竖屏：改为纵向排列
+   --------------------------------------------------------- */
+
+@media (max-width: 600px) {
+  .VPHomeFeatures .container {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  .VPHomeFeatures .items {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+}
+
+
+/* ---------------------------------------------------------
+   7.6 减少动画
+   --------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .VPHomeFeatures .VPFeature .box {
+    transition: none !important;
+  }
+}
+
+/* =========================================================
+   8. 右下角社交链接
+   ========================================================= */
+
+/* Outer strokes do not affect the home cards' dimensions or spacing. */
+.VPHome,
+.VPDoc:has(.home-profile--about) {
+  --home-glass-outline: rgba(255, 255, 255, 0.65);
+}
+
+html.dark .VPHome,
+html.dark .VPDoc:has(.home-profile--about) {
+  --home-glass-outline: rgba(255, 255, 255, 0.30);
+}
+
+/* Position the about profile 96px from the top of the page. */
+.VPDoc:has(.home-profile--about) {
+  padding: 96px 24px 128px 96px;
+}
+
+.VPDoc:has(.home-profile--about) .content {
+  padding: 0;
+}
+
+/* Match the avatar's inset: profile padding plus its transparent 1px border. */
+.VPDoc:has(.home-profile--about) .main {
+  padding-left: 17px;
+}
+
+.VPDoc:has(.home-profile--about) .vp-doc :is(p, li, blockquote, th, td) {
+  font-size: 20px;
+}
+
+/* Extend the about card's glass surface across the entire wallpaper. */
+body:has(.home-profile--about) .background-slideshow::after {
+  background: linear-gradient(rgba(255, 255, 255, 0.20), rgba(255, 255, 255, 0.20)),
+    rgba(0, 0, 0, var(--background-overlay-opacity));
+  backdrop-filter: blur(20px) saturate(1.3);
+  -webkit-backdrop-filter: blur(20px) saturate(1.3);
+}
+
+html.dark body:has(.home-profile--about) .background-slideshow::after {
+  background: linear-gradient(rgba(25, 25, 28, 0.62), rgba(25, 25, 28, 0.62)),
+    rgba(0, 0, 0, var(--background-overlay-opacity));
+}
+
+@media (min-width: 640px) {
+  .VPDoc:has(.home-profile--about) {
+    padding-left: 96px;
+    padding-right: 48px;
+  }
+}
+
+@media (min-width: 960px) {
+  .VPDoc:has(.home-profile--about) {
+    padding: max(0px, calc(96px - var(--vp-nav-height))) 64px 96px 96px;
+  }
+  .VPDoc:has(.home-profile--about) .main {
+    padding-left: 25px;
+  }
+}
+
+.VPHome .VPHomeFeatures .VPFeature .box {
+  outline: 1px solid var(--home-glass-outline);
+  outline-offset: 0;
+}
+
+.fixed-social-links {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  z-index: 1000;
+}
+
+.social-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 40px;
+  height: 40px;
+
+  color: var(--site-bright-text) !important;
+
+  background: rgba(255, 255, 255, 0.20);
+
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 10px;
+
+  backdrop-filter: blur(12px) saturate(1.15);
+  -webkit-backdrop-filter: blur(12px) saturate(1.15);
+
+  box-shadow:
+    0 4px 16px rgba(0, 0, 0, 0.12);
+
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.social-link:hover {
+  transform: translateY(-3px);
+
+  color: var(--site-bright-text) !important;
+
+  background: rgba(255, 255, 255, 0.40);
+
+  border-color: rgba(255, 255, 255, 0.85);
+}
+
+.social-link svg {
+  width: 22px;
+  height: 22px;
+}
+
+.bilibili-icon {
+  display: inline-flex;
+  width: 22px;
+  height: 22px;
+}
+
+/* Keep each pager card on its own side and use half of that side's width. */
+.VPDocFooter .pager-link.prev,
+.VPDocFooter .pager-link.next {
+  width: 50%;
+}
+
+/* Slightly enlarge site typography while keeping the layout proportions. */
+body {
+  font-size: 18px;
+  line-height: 27px;
+  letter-spacing: 0.035em;
+}
+
+.vp-doc h1 { font-size: 32px; }
+.vp-doc h2 { font-size: 27px; }
+.vp-doc h3 { font-size: 23px; }
+.vp-doc h4 { font-size: 20px; }
+.VPDoc .vp-doc:has(.score-page-subtitle) h1 {
+  text-align: center;
+}
+.VPDoc .vp-doc:has(.section-index-marker) h1 {
+  text-align: center;
+}
+.VPDoc .vp-doc .score-page-subtitle {
+  margin: 8px 0 24px;
+  text-align: center;
+  font-size: 18px;
+  line-height: 1.65;
+}
+.vp-doc p,
+.vp-doc li,
+.vp-doc blockquote,
+.vp-doc th,
+.vp-doc td {
+  font-size: 18px;
+}
+
+.VPNavBarMenuLink,
+.VPNavBarTitle .title,
+.VPSidebarItem .text,
+.VPDocFooter .pager-link .title,
+.VPDocFooter .pager-link .desc,
+.VPNavBarSearch .DocSearch-Button {
+  font-size: 16px;
+}
+
+.VPNavBarMenuLink,
+.VPNavBarTitle .title,
+.VPNavBarSearch .DocSearch-Button {
+  font-size: 16px;
+  line-height: 1.5;
+  letter-spacing: 0.04em;
+}
+
+html body .VPNavBarTitle .title {
+  --vp-nav-logo-height: 32px;
+  font-size: 24px !important;
+  display: flex;
+  align-items: center;
+}
+
+.VPNavBarTitle .title > .logo {
+  display: block;
+  width: var(--vp-nav-logo-height);
+  height: var(--vp-nav-logo-height);
+  object-fit: contain;
+  margin-right: 16px;
+  transform: translateY(2px);
+  align-self: center;
+  flex-shrink: 0;
+}
+
+.VPNavBarTitle .title > span {
+  display: flex;
+  align-items: center;
+  line-height: var(--vp-nav-logo-height);
+}
+
+html body .VPNavBarSearch .DocSearch-Button {
+  font-size: 20px !important;
+  letter-spacing: 0.03em;
+}
+
+html body .VPNavBarMenu .VPNavBarMenuLink {
+  font-size: 18px !important;
+}
+
+.VPSidebarItem .text,
+.VPDocFooter .pager-link .title,
+.VPDocFooter .pager-link .desc {
+  line-height: 1.6;
+}
+
+/* The root sidebar link is each section's introduction page (for example, Scores). */
+.VPSidebarItem.level-0.is-link > .item > .link > .text {
+  font-size: 24px !important;
+  line-height: 1.5;
+}
+
+/* Directories without an index page use their first page as the introduction. */
+.VPSidebarItem.level-0:not(.is-link) > .items > .VPSidebarItem:first-child .text {
+  font-size: 24px !important;
+  line-height: 1.5;
+}
+
+.vp-doc h1 { line-height: 1.3; }
+.vp-doc h2,
+.vp-doc h3,
+.vp-doc h4 { line-height: 1.4; }
+.vp-doc h1,
+.vp-doc h2,
+.vp-doc h3,
+.vp-doc h4,
+.vp-doc h5,
+.vp-doc h6 { letter-spacing: 0.035em; }
+.vp-doc p,
+.vp-doc li,
+.vp-doc blockquote,
+.vp-doc th,
+.vp-doc td { line-height: 1.65; }
+
+body { line-height: 1.7; }
+
+.vp-doc th { font-size: 16px; }
+.vp-doc td { font-size: 16px; }
+
+:root {
+  --vp-custom-block-font-size: 16px;
+  --vp-custom-block-code-font-size: 15px;
+}
+
+@media (min-width: 768px) {
+  .vp-doc h1 { font-size: 36px; }
+}
+
+@media (max-width: 767px) {
+  .vp-doc h1 { font-size: 32px; }
+}
+
+
+/* ---------------------------------------------------------
+   暗黑模式
+   --------------------------------------------------------- */
+
+html.dark .social-link {
+  background: rgba(25, 25, 28, 0.62);
+
+  border-color: rgba(255, 255, 255, 0.08);
+
+  box-shadow:
+    0 6px 20px rgba(0, 0, 0, 0.30);
+}
+
+html.dark .home-profile .social-link {
+  border-width: 1.5px;
+  border-color: rgba(255, 255, 255, 0.16);
+}
+
+html.dark .home-profile .social-link:hover {
+  border-color: rgba(255, 255, 255, 0.85);
+}
+
+html.dark .social-link:hover {
+  background: rgba(35, 35, 40, 0.72);
+
+  border-color: rgba(255, 255, 255, 0.85);
+}
+
+
+/* ---------------------------------------------------------
+   小屏幕
+   --------------------------------------------------------- */
+
+@media (max-width: 959px) {
+  .fixed-social-links {
+    right: 16px;
+    bottom: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .social-link {
+    transition: none !important;
+  }
+}
+
+/* Give quarter notes a full character cell without changing the glyph. */
+.music-note {
+  display: inline-block;
+  width: 0.666667em;
+  font-size: 1.5em;
+  font-weight: 1000;
+  line-height: 1;
+  text-align: center;
+}
+
+/* Keep light-theme text unchanged and soften text in dark mode. */
+.VPDoc .vp-doc a:is(.github-source-link, .vp-external-link-icon, [href*='://'], [target='_blank']):not(.no-icon, :has(img, svg)) {
+  position: relative;
+  display: inline-block;
+  padding-right: 14px;
+  transition: text-shadow 0.2s ease;
+}
+
+.VPDoc .vp-doc a:is(.github-source-link, .vp-external-link-icon, [href*='://'], [target='_blank']):not(.no-icon, :has(img, svg)):is(:hover, :focus-visible) {
+  color: var(--site-bright-text) !important;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.65), 0 4px 10px rgba(0, 0, 0, 0.45);
+  text-decoration: underline;
+}
+
+.VPDoc .vp-doc a:is(.github-source-link, .vp-external-link-icon, [href*='://'], [target='_blank']):not(.no-icon, :has(img, svg))::after {
+  content: '';
+  position: absolute;
+  display: block;
+  right: 0;
+  margin: 0;
+  width: 10px;
+  height: 10px;
+  background: currentColor;
+  color: currentColor;
+  --icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M9 5v2h6.59L4 18.59 5.41 20 17 8.41V15h2V5H9z'/%3E%3C/svg%3E");
+  -webkit-mask-image: var(--icon);
+  mask-image: var(--icon);
+  pointer-events: none;
+}
+
+.VPDoc .vp-doc a:is(.github-source-link, .vp-external-link-icon, [href*='://'], [target='_blank']):not(.no-icon, :has(img, svg))::after {
+  top: calc(100% - 12px);
+  bottom: auto;
+  opacity: 1;
+  transition: top 0.2s ease;
+}
+
+.VPDoc .vp-doc a:is(.github-source-link, .vp-external-link-icon, [href*='://'], [target='_blank']):not(.no-icon, :has(img, svg)):is(:hover, :focus-visible)::after {
+  top: 1px;
+}
+
+.site-copyright {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  padding: 16px 24px;
+  text-align: center;
+  color: var(--site-bright-text);
+  font-size: 14px;
+  line-height: 1.6;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+@media (min-width: 960px) {
+  body:not(.sidebar-collapsed) .VPContent.has-sidebar ~ .site-copyright {
+    padding-left: calc(var(--vp-sidebar-width) + 24px);
+  }
+}
+
+:root {
+  --site-bright-text: #fff;
+}
+
+html.dark {
+  --site-bright-text: #ccc;
+  --vp-c-text-1: #ccc;
+  --vp-c-text-2: #aaa;
+  --vp-c-text-3: #888;
+}
+
+html.dark .VPHero .name {
+  -webkit-text-fill-color: #8991d1 !important;
+}
+
+/* Suppress native image/link dragging while preserving clicks and text selection. */
+img, a { -webkit-user-drag: none; }
+
+/* Hover previews an item; the current page keeps a distinct persistent marker. */
+.VPSidebar .VPSidebarItem > .item {
+  border-radius: 6px;
+  transition: background-color 0.18s;
+}
+
+.VPSidebar .VPSidebarItem:not(.is-active) > .item {
+  isolation: isolate;
+}
+
+.VPSidebar .VPSidebarItem:not(.is-active) > .item:hover::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 0 -5px;
+  z-index: -1;
+  border-radius: inherit;
+  background-color: var(--vp-c-default-soft);
+  pointer-events: none;
+}
+
+.VPSidebar .VPSidebarItem:not(.is-active).is-link > .item > .link:hover > .text {
+  color: var(--vp-c-text-1);
+}
+
+.VPSidebar .VPSidebarItem.is-active > .item {
+  background-color: var(--vp-c-brand-soft);
+
+}
+
+.VPSidebar .VPSidebarItem.is-active > .item > .link > .text {
+  padding-left: 5px;
+  color: var(--vp-c-brand-1);
+  font-weight: 700;
+}
+
+.VPSidebar .VPSidebarItem.is-active > .item > .indicator {
+  background-color: var(--vp-c-brand-1);
+}
+
+.VPSidebar .VPSidebarItem > .item > .link:focus-visible,
+.VPSidebar .VPSidebarItem > .item[role="button"]:focus-visible {
+  outline: 2px solid var(--vp-c-brand-1);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .VPSidebar .VPSidebarItem > .item { transition: none; }
+}
+/* Keep document insets independent of VitePress's wide-screen centering. */
+@media (min-width: 960px) {
+  .VPContent.has-sidebar {
+    padding-right: 0 !important;
+  }
+  body:not(.sidebar-collapsed) .VPContent.has-sidebar .VPDoc .container {
+    padding-right: 0 !important;
+  }
+}
+
+:root {
+  --vp-sidebar-width: 280px;
+}
+
+/* Desktop document insets, measured from the available content area's edges. */
+@media (min-width: 960px) {
+  body:not(.sidebar-collapsed) .VPContent.has-sidebar .VPDoc {
+    padding-left: 80px;
+    padding-right: 80px;
+  }
+
+  body.sidebar-collapsed .VPContent.has-sidebar .VPDoc {
+    padding-left: 100px;
+    padding-right: 100px;
+  }
+
+  .VPContent.has-sidebar .VPDoc .container {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  .VPContent.has-sidebar .VPDoc .content {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+/* Avoid stacking the sidebar's 96px footer padding with the final group. */
+.VPSidebar {
+  padding-bottom: 16px !important;
+}
+
+.VPSidebar .nav > .group:last-child > .VPSidebarItem.level-0 {
+  padding-bottom: 0;
+}
+/* Match the score list heading to the section introduction heading. */
+.VPSidebarItem.level-0.is-link > .items > .VPSidebarItem.level-1.collapsible:not(.is-link) > .item > .text {
+  font-size: 24px !important;
+  line-height: 1.5;
+}
+/* Reserve the right side of the track heading for a future sorting control. */
+.VPSidebarItem.level-0.is-link > .items > .VPSidebarItem.level-1.collapsible:not(.is-link) > .item {
+  width: calc(100% - 60px);
+  align-items: center;
+}
+
+.VPSidebarItem.level-0.is-link > .items > .VPSidebarItem.level-1.collapsible:not(.is-link) > .item > .caret {
+  align-self: stretch;
+  width: 36px;
+  height: auto;
+  min-height: 40px;
+  margin-right: 0;
+}
+
+.VPSidebarItem.level-0.is-link > .items > .VPSidebarItem.level-1.collapsible:not(.is-link) > .item > .caret > .caret-icon {
+  font-size: 24px;
+}
+/* Light sidebar: gently brighten its glass surface from left to right. */
+html:not(.dark) .VPSidebar {
+  background: linear-gradient(to right, rgba(218, 222, 230, 0.55) 0%, rgba(226, 230, 237, 0.64) 20%, rgba(241, 243, 247, 0.81) 45%, rgba(251, 252, 254, 0.91) 70%, rgba(255, 255, 255, 0.94) 100%) !important;
+}
+
+html:not(.dark) .VPSidebar > .curtain {
+  background: linear-gradient(to right, rgba(218, 222, 230, 0.55) 0%, rgba(226, 230, 237, 0.64) 20%, rgba(241, 243, 247, 0.81) 45%, rgba(251, 252, 254, 0.91) 70%, rgba(255, 255, 255, 0.94) 100%);
+}
+/* Darker sidebar typography on the light glass surface. */
+html:not(.dark) .VPSidebar {
+  --vp-c-text-1: #20232b;
+  --vp-c-text-2: #343945;
+  --vp-c-text-3: #505765;
+}
+
+html:not(.dark) .VPSidebar .VPSidebarItem.is-active > .item > .link > .text {
+  color: #343b80;
+}
+/* Dark sidebar: brighter translucent left edge, deep opaque reading area. */
+html.dark .VPSidebar {
+  background: linear-gradient(to right, rgba(85, 92, 108, 0.38) 0%, rgba(65, 71, 85, 0.52) 20%, rgba(25, 28, 36, 0.80) 45%, rgba(12, 14, 19, 0.89) 70%, rgba(8, 8, 10, 0.92) 100%) !important;
+}
+
+html.dark .VPSidebar > .curtain {
+  background: linear-gradient(to right, rgba(85, 92, 108, 0.38) 0%, rgba(65, 71, 85, 0.52) 20%, rgba(25, 28, 36, 0.80) 45%, rgba(12, 14, 19, 0.89) 70%, rgba(8, 8, 10, 0.92) 100%);
+}
+/* Brighter typography for the translucent dark sidebar. */
+html.dark .VPSidebar {
+  --vp-c-text-1: #f1f3f8;
+  --vp-c-text-2: #dce1eb;
+  --vp-c-text-3: #bfc7d6;
+}
+
+html.dark .VPSidebar .VPSidebarItem.is-active > .item > .link > .text {
+  color: #bec5ff;
+}
+/* Sidebar only: transparent track with visible scrollbar controls. */
+.VPSidebar :is(.nav, .score-track-scroll)::-webkit-scrollbar {
+  width: 15px;
+  background: transparent;
+}
+.VPSidebar :is(.nav, .score-track-scroll)::-webkit-scrollbar-track,
+.VPSidebar :is(.nav, .score-track-scroll)::-webkit-scrollbar-track-piece {
+  background: transparent;
+}
+.VPSidebar :is(.nav, .score-track-scroll)::-webkit-scrollbar-thumb {
+  background: #909090;
+  border: 3px solid transparent;
+  background-clip: padding-box;
+  border-radius: 12px;
+  min-height: 32px;
+}
+.VPSidebar :is(.nav, .score-track-scroll)::-webkit-scrollbar-button:single-button {
+  display: block;
+  height: 15px;
+  background: transparent center / 11px 7px no-repeat;
+}
+.VPSidebar :is(.nav, .score-track-scroll)::-webkit-scrollbar-button:single-button:vertical:decrement {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 7'%3E%3Cpath fill='%23909090' d='M0 7L6 0l6 7z'/%3E%3C/svg%3E");
+}
+.VPSidebar :is(.nav, .score-track-scroll)::-webkit-scrollbar-button:single-button:vertical:increment {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 7'%3E%3Cpath fill='%23909090' d='M0 0h12L6 7z'/%3E%3C/svg%3E");
+}
+.VPSidebar :is(.nav, .score-track-scroll)::-webkit-scrollbar-button:vertical:decrement:end,
+.VPSidebar :is(.nav, .score-track-scroll)::-webkit-scrollbar-button:vertical:increment:start {
+  display: none;
+}
+/* Keep the sidebar frame at its original top; only the inner nav scrolls. */
+@media (min-width: 960px) {
+  .VPSidebar {
+    top: var(--vp-layout-top-height, 0px) !important;
+    padding-top: var(--vp-nav-height) !important;
+    padding-bottom: 0 !important;
+    overflow: hidden;
+  }
+
+  .VPSidebar > .curtain {
+    display: none;
+  }
+
+  .VPSidebar > .nav {
+    height: 100%;
+    margin-left: -8px;
+    padding-left: 8px;
+    margin-right: -32px;
+    padding-right: 4px;
+    padding-bottom: 16px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+}
+/* Give the track heading caret extra separation from the sort button. */
+.VPSidebarItem.level-0.is-link > .items > .VPSidebarItem.level-1.collapsible:not(.is-link) > .item > .caret {
+  transform: translateX(-6px);
+}
+@media (min-width: 960px) {
+  .VPSidebar > .nav > .group {
+    width: 100%;
+  }
+}
+/* Separate the track heading from its list. */
+.VPSidebarItem.level-0.is-link > .items > .VPSidebarItem.level-1.collapsible:not(.is-link) > .items {
+  margin-top: 8px;
+}
+/* Collapsed track heading uses the full section width without list spacing. */
+.VPSidebarItem.level-0.is-link > .items > .VPSidebarItem.level-1.collapsible.collapsed:not(.is-link) > .item {
+  width: 100%;
+}
+
+.VPSidebarItem.level-0.is-link > .items > .VPSidebarItem.level-1.collapsible.collapsed:not(.is-link) > .items {
+  margin-top: 0;
+}
+/* Space adjacent tracks and nested difficulties without changing heading inset. */
+.VPSidebar .VPSidebarItem.level-1 > .items .VPSidebarItem + .VPSidebarItem {
+  margin-top: 2px;
+}
+/* Score headings stay fixed; only the track list consumes the scroll space. */
+@media (min-width: 960px) {
+  .VPSidebar.score-sidebar > .nav {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    overflow: hidden;
+    padding-right: 0;
+    padding-bottom: 0;
+  }
+
+  .VPSidebar.score-sidebar > .nav > .group,
+  .VPSidebar.score-sidebar > .nav > .group > .VPSidebarItem.level-0,
+  .VPSidebar.score-sidebar .VPSidebarItem.level-0 > .items,
+  .VPSidebar.score-sidebar .VPSidebarItem.level-0 > .items > .VPSidebarItem.level-1 {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+
+  .VPSidebar.score-sidebar .VPSidebarItem.level-0 > .item,
+  .VPSidebar.score-sidebar .VPSidebarItem.level-1 > .item {
+    flex-shrink: 0;
+  }
+
+  .VPSidebar.score-sidebar .score-track-scroll {
+    flex: 1 1 auto;
+    min-height: 0;
+    margin-right: 0;
+    padding-right: 4px;
+    padding-bottom: 16px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-gutter: stable;
+  }
+
+  .VPSidebar.score-sidebar .VPSidebarItem.collapsed > .score-track-scroll {
+    display: none;
+  }
+}
+/* Inset fixed score headings while keeping the list scrollbar at the edge. */
+@media (min-width: 960px) {
+  .VPSidebar.score-sidebar > .nav {
+    padding-right: 8px;
+  }
+  .VPSidebar.score-sidebar .score-track-scroll {
+    margin-right: -8px;
+  }
+}
+/* Separate the section introduction from the track heading. */
+.VPSidebar.score-sidebar .VPSidebarItem.level-0.is-link > .items {
+  margin-top: 4px;
+}
+/* Difficulty subgroups keep their indentation without a second divider. */
+.VPSidebar .VPSidebarItem.level-2 > .items {
+  border-left: 0;
+}
+
+/* Separate expanded song headings from their difficulty entries. */
+.VPSidebar .VPSidebarItem.level-2:not(.collapsed) > .items {
+  margin-top: 2px;
+}
+
+/* Paint the main divider beneath selection markers, inside the scrollport. */
+.VPSidebar.score-sidebar .VPSidebarItem.level-1 > .score-track-scroll {
+  border-left: 0;
+  padding-left: 17px;
+  background-image: linear-gradient(to right, var(--vp-c-divider) 0, var(--vp-c-divider) 1px, transparent 1px);
+  background-repeat: no-repeat;
+}
+
+.VPSidebar .VPSidebarItem.is-active > .item > .indicator {
+  z-index: 1;
+}
+/* Half-pixel main divider in light mode. */
+html:not(.dark) .VPSidebar.score-sidebar .VPSidebarItem.level-1 > .score-track-scroll {
+  background-image: linear-gradient(to right, var(--vp-c-divider) 0, var(--vp-c-divider) 0.5px, transparent 0.5px);
+}
+/* Empty categories retain the same heading controls without taking list space. */
+@media (min-width: 960px) {
+  .VPSidebar.score-sidebar .VPSidebarItem.level-0 > .items > .VPSidebarItem.level-1.empty-track-group {
+    flex: 0 0 auto;
+    margin-top: 4px;
+  }
+  .VPSidebar.score-sidebar .empty-track-group > .score-track-scroll {
+    flex: 0 0 auto;
+    padding-bottom: 12px;
+  }
+}
+
+/* Category headings do not use the legacy adjacent-page separator. */
+.VPSidebar.score-sidebar .VPSidebarItem.level-0 > .items > .VPSidebarItem.level-1 + .VPSidebarItem.level-1::before {
+  content: none;
+}
+
+/* All category headings stay adjacent when their lists are collapsed. */
+@media (min-width: 960px) {
+  .VPSidebar.score-sidebar .VPSidebarItem.level-0 > .items > .VPSidebarItem.level-1.collapsed {
+    flex: 0 0 auto;
+  }
+  .VPSidebar.score-sidebar .VPSidebarItem.level-0 > .items > .VPSidebarItem.level-1 + .VPSidebarItem.level-1 {
+    margin-top: 4px;
+  }
+}
+/* Add breathing room below the expanded game category. */
+@media (min-width: 960px) {
+  .VPSidebar.score-sidebar .VPSidebarItem.level-0 > .items > .VPSidebarItem.level-1:first-child:not(.collapsed) {
+    margin-bottom: 8px;
+  }
+}
+
+/* Match the 10px inset above the section introduction at the sidebar bottom. */
+@media (min-width: 960px) {
+  .VPSidebar.score-sidebar > .nav {
+    padding-bottom: 10px;
+  }
+}
+
+/* Current-page marker stays a fixed distance left of the category caret. */
+.VPSidebar .VPSidebarItem.level-0 > .items > .VPSidebarItem.level-1.collapsible > .item > .text {
+  flex-grow: 0;
+  position: relative;
+}
+.VPSidebar .VPSidebarItem.level-0 > .items > .VPSidebarItem.level-1.collapsible > .item > .caret {
+  margin-left: auto;
+}
+.VPSidebar .VPSidebarItem.level-0 > .items > .VPSidebarItem.level-1.collapsible.has-active > .item > .caret::before {
+  content: '';
+  position: absolute;
+  left: -11px;
+  top: 50%;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #4d75e6;
+  outline: 1px solid #4d75e6;
+  outline-offset: 2px;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+/* Match the heading divider rhythm above the video/image row. */
+.VPDoc .vp-doc .score-update-divider {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 48px;
+  color: var(--site-bright-text);
+  font-size: 14px;
+  line-height: 1.65;
+  text-align: center;
+}
+
+.VPDoc .vp-doc .score-resource-status + .score-update-divider {
+  margin-top: 4px;
+}
+
+.VPDoc .vp-doc .score-update-divider::before,
+.VPDoc .vp-doc .score-update-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--vp-c-divider);
+}
+
+.VPDoc .vp-doc .score-update-divider time {
+  flex-shrink: 0;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.VPDoc .vp-doc .video-layout-row {
+  margin-top: 48px;
+  border-top: 1px solid var(--vp-c-divider);
+  padding-top: 36px;
+}
+
+.VPDoc .vp-doc .score-update-divider + .video-layout-row {
+  margin-top: 0;
+  border-top: none;
+}
+
+/* Vector clefs inherit the surrounding text color in both themes. */
+.VPDoc .vp-doc .score-symbol:not(.score-explanation *),
+.VPDoc .vp-doc .score-explanation:has(ul, ol, h1, h2, h3, h4, h5, h6, blockquote, pre, table, mjx-container[display="true"], strong, em, code, a, > p + p) .score-symbol {
+  margin-inline: 0.2em;
+}
+
+.VPDoc .vp-doc .score-symbol {
+  display: inline-block;
+  vertical-align: middle;
+  background-color: currentColor;
+  -webkit-mask: var(--clef-image) center / contain no-repeat;
+  mask: var(--clef-image) center / contain no-repeat;
+}
+.VPDoc .vp-doc .score-symbol.alto {
+  --clef-image: url('/symbols/alto.svg');
+  width: 0.7375em;
+  height: 1.1em;
+}
+
+.VPDoc .vp-doc .score-symbol.bass-8va {
+  --clef-image: url('/symbols/bass-8va.svg');
+  width: 0.75em;
+  height: 1.2em;
+}
+
+.VPDoc .vp-doc .score-symbol.bass-8vb {
+  --clef-image: url('/symbols/bass-8vb.svg');
+  width: 0.75em;
+  height: 1.0625em;
+}
+
+.VPDoc .vp-doc .score-symbol.bass {
+  --clef-image: url('/symbols/bass.svg');
+  width: 0.75em;
+  height: 0.8625em;
+}
+
+.VPDoc .vp-doc .score-symbol.treble-8va {
+  --clef-image: url('/symbols/treble-8va.svg');
+  width: 0.7125em;
+  height: 2.2125em;
+}
+
+.VPDoc .vp-doc .score-symbol.treble-8vb {
+  --clef-image: url('/symbols/treble-8vb.svg');
+  width: 0.7125em;
+  height: 2.2125em;
+}
+
+.VPDoc .vp-doc .score-symbol.treble {
+  --clef-image: url('/symbols/treble.svg');
+  width: 0.7125em;
+  height: 1.9125em;
+}
+
+/* Equal canvases align octave variants with the ordinary clef, including flex rows. */
+.VPDoc .vp-doc .score-symbol:is(.treble, .treble-8va, .treble-8vb) {
+  width: 0.7125em;
+  height: 2.5125em;
+}
+.VPDoc .vp-doc .score-symbol:is(.bass, .bass-8va, .bass-8vb) {
+  width: 0.7625em;
+  height: 1.4em;
+}
+
+.VPDoc .vp-doc .score-symbol.pedal-on {
+  --clef-image: url('/symbols/pedal-on.svg');
+  width: 1.6627em;
+  height: 1em;
+  vertical-align: -0.12em;
+}
+
+.VPDoc .vp-doc .score-symbol.pedal-off {
+  --clef-image: url('/symbols/pedal-off.svg');
+  width: 0.9em;
+  height: 0.875em;
+  vertical-align: -0.0575em;
+}
+
+.VPDoc .vp-doc .score-acknowledgement {
+  margin-top: 1.5em;
+  font-size: 0.8em;
+  font-weight: 400;
+  line-height: 1.6;
+  color: #666;
+}
+html.dark .VPDoc .vp-doc .score-acknowledgement {
+  color: #aaa;
+}
+
+.VPDoc .vp-doc .score-voice-black {
+  color: #000;
+  -webkit-text-stroke: 0.5px #fff;
+  paint-order: stroke fill;
+}
+.VPDoc .vp-doc .score-voice-blue { color: #0000ff; }
+.VPDoc .vp-doc .score-voice-purple { color: #800080; }
+
+/* About-page social buttons at 1.5 times the home size. */
+.home-profile--about .social-link {
+  width: 60px;
+  height: 60px;
+  border-radius: 15px;
+}
+.home-profile--about .social-link svg,
+.home-profile--about .bilibili-icon {
+  width: 33px;
+  height: 33px;
+}
+
+/* Compact navigation shares the footer navigation data, flanking each page title. */
+.VPDoc .vp-doc .page-title-row { display: grid; grid-template-columns: var(--title-card-size, 42px) minmax(0, 1fr) var(--title-card-size, 42px); align-items: center; gap: 10px; margin-bottom: 16px; }
+.VPDoc .vp-doc .page-title-row h1 { min-width: 0; margin: 0; overflow-wrap: anywhere; text-align: center; }
+@media (max-width: 480px) { .VPDoc .vp-doc .page-title-row { grid-template-columns: var(--title-card-size, 42px) minmax(0, 1fr) var(--title-card-size, 42px); gap: 5px; } }
+
+/* Hidden scores keep their dashed identity across sort modes and active states. */
+.VPSidebar .VPSidebarItem:is(.score-hidden-item, .score-hidden-group) > .item { outline: 1px dashed var(--vp-c-text-3); outline-offset: -1px; }
+.VPSidebar .VPSidebarItem:is(.score-hidden-item, .score-hidden-group):is(.is-active, .has-active) > .item { outline-color: var(--vp-c-brand-1); outline-style: dashed; }
+
+/* Unselected unpublished entries follow the hover panel's exact -5px left inset. */
+.VPSidebar .VPSidebarItem:is(.score-hidden-item, .score-hidden-group):not(.is-active, .has-active) > .item { position: relative; outline: none; }
+.VPSidebar .VPSidebarItem:is(.score-hidden-item, .score-hidden-group):not(.is-active, .has-active) > .item::after { content: ''; position: absolute; inset: 0 0 0 -5px; border: 1px dashed var(--vp-c-text-3); border-radius: inherit; box-sizing: border-box; pointer-events: none; }
+
+/* Empty PDF notice stays pure white on light glass surfaces. */
+html:not(.dark) .VPDoc .pdf-viewer-wrapper .pdf-iframe.pdf-placeholder { color: #fff !important; }
+
+/* Empty videos use the same glass surface as empty score illustrations and PDFs. */
+html body .vp-doc div.bilibili-container:has(> .score-video-missing) { background: var(--content-glass-surface) !important; backdrop-filter: blur(14px) saturate(1.15); -webkit-backdrop-filter: blur(14px) saturate(1.15); }
+html body .vp-doc .bilibili-container > .score-video-missing { background: transparent; backdrop-filter: none; -webkit-backdrop-filter: none; }

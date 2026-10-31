@@ -1,0 +1,25 @@
+{
+  "name": "website-framework-example",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "content:generate": "node scripts/generate-content.mjs",
+    "docs:dev": "npm run content:generate && vitepress dev src",
+    "docs:build": "node scripts/build-docs.mjs custom",
+    "docs:preview": "node scripts/preview-docs.mjs",
+    "docs:serve": "npm run docs:build && npm run docs:preview",
+    "docs:build:custom": "node scripts/build-docs.mjs custom",
+    "docs:build:github": "node scripts/build-docs.mjs github",
+    "test": "node --test scripts/*.test.mjs",
+    "docs:check": "node scripts/check-deployment.mjs"
+  },
+  "devDependencies": {
+    "esbuild": "0.21.5",
+    "markdown-it-mathjax3": "^4.3.2",
+    "vitepress": "^1.0.0"
+  },
+  "dependencies": {
+    "entities": "7.0.1"
+  },
+  "private": true
+}
