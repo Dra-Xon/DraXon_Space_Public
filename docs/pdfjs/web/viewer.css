@@ -8411,3 +8411,13 @@ html.site-portrait-reader .pdfViewer .page {
   box-sizing: border-box;
   --scale-round-x: 1px !important;
 }
+
+/* PDF.js's 350px desktop minimum must not widen narrow portrait iframes. */
+html.site-portrait-reader #mainContainer {
+  min-width: 0;
+  width: 100%;
+  max-width: 100%;
+}
+
+/* Only fullscreen portrait reading may pan horizontally after zooming. */
+html.site-portrait-reader.site-portrait-zoom #viewerContainer { overflow-x: auto !important; }
