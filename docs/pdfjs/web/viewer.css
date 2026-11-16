@@ -8386,3 +8386,28 @@ img, a { -webkit-user-drag: none; }
 #siteScalePercent { box-sizing: border-box; width: 48px; height: 24px; padding: 2px 4px; border: 1px solid var(--toolbar-border-color, #888); border-radius: 4px; background: var(--field-bg-color, Field); color: var(--main-color, FieldText); font: inherit; text-align: right; appearance: textfield; }
 #siteScalePercent::-webkit-inner-spin-button, #siteScalePercent::-webkit-outer-spin-button { appearance: none; margin: 0; }
 #siteScalePercent:focus-visible { outline: 2px solid Highlight; outline-offset: 1px; }
+
+/* The parent page chooses portrait reading, including in container fullscreen. */
+html.site-portrait-reader #toolbarContainer { display: none !important; }
+html.site-portrait-reader #viewerContainer { inset-block-start: 0 !important; top: 0 !important; }
+
+/* Remove the PDF.js border and page gaps in portrait edge-to-edge reading. */
+html.site-portrait-reader #viewerContainer,
+html.site-portrait-reader .pdfViewer { padding: 0 !important; }
+html.site-portrait-reader .pdfViewer .page { margin: 0 auto !important; border: none !important; }
+
+/* Keep portrait page-width fitting stable as pages and scrollbars appear. */
+html.site-portrait-reader #viewerContainer {
+  overflow-y: scroll !important;
+  overflow-x: hidden !important;
+  scrollbar-gutter: stable;
+}
+html.site-portrait-reader .pdfViewer {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+}
+html.site-portrait-reader .pdfViewer .page {
+  box-sizing: border-box;
+  --scale-round-x: 1px !important;
+}
