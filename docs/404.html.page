@@ -6,10 +6,10 @@
     <title>404 | 耀之界历</title>
     <meta name="description" content="Not Found">
     <meta name="generator" content="VitePress v1.6.4">
-    <link rel="preload stylesheet" href="/assets/style.CaCpGHZR.css" as="style">
+    <link rel="preload stylesheet" href="/assets/style.L7sqBvR0.css" as="style">
     <link rel="preload stylesheet" href="/vp-icons.css" as="style">
     
-    <script type="module" src="/assets/app.BM7fm3hu.js"></script>
+    <script type="module" src="/assets/app.CPtJ3-7S.js"></script>
     <link rel="preload" href="/assets/inter-roman-latin.Di8DUHzh.woff2" as="font" type="font/woff2" crossorigin="">
     <style>:root{color-scheme:only light;--initial-bg:#f5f5fa;--initial-text:#29243e}html.dark{color-scheme:dark;--initial-bg:#090e1a;--initial-text:#fff}</style>
     <script>(()=>{let e="auto";try{e=localStorage.getItem("vitepress-theme-appearance")||"auto"}catch{}const t=e==="dark"||e!=="light"&&matchMedia("(prefers-color-scheme: dark)").matches;document.documentElement.classList.toggle("dark",t)})();</script>
