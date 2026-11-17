@@ -1,0 +1,22 @@
+/* Explicit tracks and thumbs avoid falling back to native arrow buttons. */
+@supports selector(::-webkit-scrollbar) {
+  * { scrollbar-color: auto !important; }
+}
+::-webkit-scrollbar { width: 12px; height: 12px; background: transparent; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: #909090;
+  border: 3px solid transparent;
+  background-clip: padding-box;
+  border-radius: 12px;
+}
+::-webkit-scrollbar-button,
+::-webkit-scrollbar-button:single-button,
+::-webkit-scrollbar-button:double-button {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  background: none !important;
+  border: 0 !important;
+}
+::-webkit-scrollbar-corner { background: transparent; }
