@@ -55,10 +55,12 @@ const syncToolbarScale = () => {
   const fullscreenElement = window.parent.document.fullscreenElement ||
     window.parent.document.webkitFullscreenElement
   const isContainerFullscreen = fullscreenElement?.contains(window.frameElement)
+  const touch = matchMedia('(pointer: coarse)').matches
+  const touchLandscape = touch && window.parent.innerWidth >= window.parent.innerHeight
   if (!isContainerFullscreen) normalContainerWidth = window.innerWidth
-  const scale = isContainerFullscreen && normalContainerWidth > 0
+  const scale = !touchLandscape && isContainerFullscreen && normalContainerWidth > 0
     ? window.innerWidth / normalContainerWidth : 1
-  const baseHeight = normalContainerWidth <= 700 ? 64 : 32
+  const baseHeight = touchLandscape ? 32 : normalContainerWidth <= 700 ? 64 : 32
   const key = `${scale}:${baseHeight}`
   if (key === lastToolbarScale) return
   lastToolbarScale = key

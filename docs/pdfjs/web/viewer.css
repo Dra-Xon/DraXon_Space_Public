@@ -8388,6 +8388,24 @@ img, a { -webkit-user-drag: none; }
 #siteScalePercent:focus-visible { outline: 2px solid Highlight; outline-offset: 1px; }
 
 /* The parent page chooses portrait reading, including in container fullscreen. */
+/* Compact toolbar for landscape PDFs on touch devices, including embedded PDFs. */
+html.site-touch-landscape #toolbarViewerLeft,
+html.site-touch-landscape #toolbarViewerMiddle .toolbarHorizontalGroup:has(> #zoomOutButton),
+html.site-touch-landscape #siteViewControls .dropdownToolbarButton:has(> #siteScrollSelect),
+html.site-touch-landscape #presentationMode { display: none !important; }
+
+/* Flatten the remaining controls into one centered row on touch landscape. */
+html.site-touch-landscape #toolbarContainer #toolbarViewer {
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 8px;
+}
+html.site-touch-landscape #toolbarContainer #toolbarViewer > :is(#toolbarViewerMiddle, #toolbarViewerRight),
+html.site-touch-landscape #toolbarViewerRight > .toolbarHorizontalGroup {
+  display: contents !important;
+}
+
 html.site-portrait-reader #toolbarContainer { display: none !important; }
 html.site-portrait-reader #viewerContainer { inset-block-start: 0 !important; top: 0 !important; }
 
